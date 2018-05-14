@@ -50,9 +50,9 @@ public class Controll : MonoBehaviour
             GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
             if (moveleft)
             {
-                //b.GetComponent<Rigidbody2D>().AddForce(transform.right * 2000 * (-1));
+                b.GetComponent<Rigidbody2D>().AddForce(transform.right * 2000 * (-1));
             } else {
-                //b.GetComponent<Rigidbody2D>().AddForce(transform.right * 2000);
+                b.GetComponent<Rigidbody2D>().AddForce(transform.right * 2000);
             }
         }
     }
