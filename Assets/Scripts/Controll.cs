@@ -30,11 +30,15 @@ public class Controll : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             rb.velocity = new Vector2(-movespeed, rb.velocity.y);
+            moveright = false;
+			moveleft = true;
 
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
             rb.velocity = new Vector2(movespeed, rb.velocity.y);
+            moveright = true;
+            moveleft = false;
 
         }
         if (moveright)
@@ -56,9 +60,10 @@ public class Controll : MonoBehaviour
             GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
             if (moveleft)
             {
-                b.GetComponent<Rigidbody2D>().AddForce(transform.right * 2000 * (-1));
-            } else {
                 b.GetComponent<Rigidbody2D>().AddForce(transform.right * 2000);
+            } else {
+                b.GetComponent<Rigidbody2D>().AddForce(-transform.right * 2000);
+            }
 
                 /*
         if (Input.touches.Length > 0)
@@ -88,7 +93,7 @@ public class Controll : MonoBehaviour
                 //swipe down
 
 */
-            }
+
         }
     }
 
