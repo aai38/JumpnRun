@@ -13,9 +13,9 @@ public class Controll : MonoBehaviour
     public Vector2 offset = new Vector2(0.4f, 0.1f);
     public Vector2 velocity;
 
-    Vector2 firstPressPos;
-    Vector2 secondPressPos;
-    Vector2 currentSwipe;
+    private bool jumpAllowed = false;
+    private Vector2 startTouchPosition, endTouchPosition;
+    private float jumpForce = 700f;
 
     void Start()
     {
@@ -25,6 +25,7 @@ public class Controll : MonoBehaviour
 
     void Update()
     {
+        SwipeCheck();
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -50,7 +51,7 @@ public class Controll : MonoBehaviour
             rb.AddForce(jumpHeight, ForceMode2D.Impulse);
         }
 
-<<<<<<< HEAD
+
         if(Input.GetKeyDown(KeyCode.Space)) {
             GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
             if (moveleft)
@@ -58,8 +59,8 @@ public class Controll : MonoBehaviour
                 b.GetComponent<Rigidbody2D>().AddForce(transform.right * 2000 * (-1));
             } else {
                 b.GetComponent<Rigidbody2D>().AddForce(transform.right * 2000);
-=======
 
+                /*
         if (Input.touches.Length > 0)
         {
             Touch t = Input.GetTouch(0);
@@ -86,8 +87,31 @@ public class Controll : MonoBehaviour
                 }
                 //swipe down
 
->>>>>>> 3be9bb142838071453e896015af8a1a81799d731
+*/
             }
+        }
+    }
+
+    private void SwipeCheck() {
+        if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began) {
+            startTouchPosition = Input.GetTouch(0).position;
+        }
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) {
+            endTouchPosition = Input.GetTouch(0).position;
+            if(endTouchPosition.y > startTouchPosition.y && rb.velocity.y == 0) {
+                jumpAllowed = true; 
+            }
+        }
+    }
+
+    private void FixedUpdate() {
+        JumpIfAllowed();
+    }
+
+    private void JumpIfAllowed() {
+        if (jumpAllowed) {
+            rb.AddForce(Vector2.up * jumpForce);
+            jumpAllowed = false;
         }
     }
 }

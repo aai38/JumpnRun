@@ -4,9 +4,6 @@ using System.Collections;
 public class TouchController : MonoBehaviour
 {
     private Controll player;
-    Vector2 firstPressPos;
-    Vector2 secondPressPos;
-    Vector2 currentSwipe;
 
 
     void Start()
