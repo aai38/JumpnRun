@@ -13,6 +13,10 @@ public class Controll : MonoBehaviour
     public Vector2 offset = new Vector2(0.4f, 0.1f);
     public Vector2 velocity;
 
+    Vector2 firstPressPos;
+    Vector2 secondPressPos;
+    Vector2 currentSwipe;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -46,6 +50,7 @@ public class Controll : MonoBehaviour
             rb.AddForce(jumpHeight, ForceMode2D.Impulse);
         }
 
+<<<<<<< HEAD
         if(Input.GetKeyDown(KeyCode.Space)) {
             GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
             if (moveleft)
@@ -53,6 +58,35 @@ public class Controll : MonoBehaviour
                 b.GetComponent<Rigidbody2D>().AddForce(transform.right * 2000 * (-1));
             } else {
                 b.GetComponent<Rigidbody2D>().AddForce(transform.right * 2000);
+=======
+
+        if (Input.touches.Length > 0)
+        {
+            Touch t = Input.GetTouch(0);
+            if (t.phase == TouchPhase.Began)
+            {
+                //save began touch 2d point
+                firstPressPos = new Vector2(t.position.x, t.position.y);
+            }
+            if (t.phase == TouchPhase.Ended)
+            {
+                //save ended touch 2d point
+                secondPressPos = new Vector2(t.position.x, t.position.y);
+
+                //create vector from the two points
+                currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+
+                //normalize the 2d vector
+                currentSwipe.Normalize();
+
+                //swipe upwards
+                if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
+                {
+                    Debug.Log("up swipe");
+                }
+                //swipe down
+
+>>>>>>> 3be9bb142838071453e896015af8a1a81799d731
             }
         }
     }
