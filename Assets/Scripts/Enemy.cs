@@ -25,10 +25,11 @@ public class Enemy : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
     }
 
-    /*void OnTriggerEnter2D(GameObject obj)
+    void OnTriggerEnter2D(Collider2D obj)
 	{
 		// Name of the object that collided with the enemy
 		var name = obj.gameObject.name;
+        obj.isTrigger = true;
 
 		// If the enemy collided with a bullet
 		if (name == "bullet(Clone)")
@@ -36,15 +37,16 @@ public class Enemy : MonoBehaviour
 			// Destroy itself (the enemy) and the bullet
 			Destroy(gameObject);
 			Destroy(obj.gameObject);
+            //TODO Score-Methode aufrufen
 		}
 
 		// If the enemy collided with the spaceship
 		if (name == "Character")
 		{
 			// Destroy itself (the enemy) to keep things simple
-			Destroy(gameObject);
+			//TODO leben
 		}
-	}*/
+	}
 }
 
 

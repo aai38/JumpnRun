@@ -4,6 +4,7 @@ using System.Collections;
 public class TouchController : MonoBehaviour
 {
     private Controll player;
+ 
 
 
     void Start()
@@ -11,6 +12,7 @@ public class TouchController : MonoBehaviour
         player = FindObjectOfType<Controll>();
     }
 
+   
     public void LeftArrow()
     {
         player.moveright = false;

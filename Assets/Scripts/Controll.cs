@@ -6,12 +6,14 @@ public class Controll : MonoBehaviour
 {
     public Rigidbody2D rb;
     public float movespeed;
+    public float turnSpeed;
     public bool moveright;
     public bool moveleft;
     public Vector2 jumpHeight;
     public GameObject bullet;
     public Vector2 offset = new Vector2(0.4f, 0.1f);
     public Vector2 velocity;
+    private SpriteRenderer mySpriteRenderer;
 
     private bool jumpAllowed = false;
     private Vector2 startTouchPosition, endTouchPosition;
@@ -20,6 +22,7 @@ public class Controll : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
 
     }
 
@@ -44,10 +47,12 @@ public class Controll : MonoBehaviour
         if (moveright)
         {
             rb.velocity = new Vector2(movespeed, rb.velocity.y);
+            mySpriteRenderer.flipX = true;
         }
         if (moveleft)
         {
             rb.velocity = new Vector2(-movespeed, rb.velocity.y);
+            mySpriteRenderer.flipX = false;
         }
         if ( Input.GetKeyDown(KeyCode.UpArrow))  //makes player jump
         {
@@ -60,9 +65,10 @@ public class Controll : MonoBehaviour
             GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
             if (moveleft)
             {
-                b.GetComponent<Rigidbody2D>().AddForce(transform.right * 2000);
+                b.GetComponent<Rigidbody2D>().AddForce(-transform.right * 5000);
+
             } else {
-                b.GetComponent<Rigidbody2D>().AddForce(-transform.right * 2000);
+                b.GetComponent<Rigidbody2D>().AddForce(transform.right * 5000);
             }
 
                 /*
