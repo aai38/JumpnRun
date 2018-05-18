@@ -11,11 +11,19 @@ public class Enemy : MonoBehaviour
 
     private Transform target;
 
+    private health health = new health();
+
+
+    public GameObject gameObject;
+
+    public Collider2D rb;
+
 
     // Use this for initialization
     void Start()
     {
         target = GameObject.FindWithTag("Player").transform;
+
 
     }
 
@@ -31,18 +39,23 @@ public class Enemy : MonoBehaviour
 		var name = obj.gameObject.name;
         obj.isTrigger = true;
 
+        Debug.Log(name);
+
 		// If the enemy collided with a bullet
 		if (name == "bullet(Clone)")
 		{
 			// Destroy itself (the enemy) and the bullet
 			Destroy(gameObject);
 			Destroy(obj.gameObject);
+            Debug.Log("hit enemy");
             //TODO Score-Methode aufrufen
 		}
 
-		// If the enemy collided with the spaceship
+		// If the enemy collided with the character
 		if (name == "Character")
 		{
+            Debug.Log("hit character");
+            health.DestroyHeart();
 			// Destroy itself (the enemy) to keep things simple
 			//TODO leben
 		}
