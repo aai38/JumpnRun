@@ -30,8 +30,9 @@ public class Loader_Scene : MonoBehaviour {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
             slider.value = progress;
 
-            //TextMeshProUGUI mText = gameObject.GetComponent<TextMeshProUGUI>();
-            //mText.SetText(progress * 100 + "%");
+            TextMeshProUGUI mText = GameObject.FindWithTag("percentage").GetComponent<TextMeshProUGUI>();
+
+            mText.SetText(progress * 100 + "%");
             yield return null;
         }
 

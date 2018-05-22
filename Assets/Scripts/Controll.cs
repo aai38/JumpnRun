@@ -30,14 +30,16 @@ public class Controll : MonoBehaviour
     {
         SwipeCheck();
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        //TODO nicht die ganze zeit in eine Richtung -> Taste nicht mehr gedrückt
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             rb.velocity = new Vector2(-movespeed, rb.velocity.y);
             moveright = false;
 			moveleft = true;
 
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             rb.velocity = new Vector2(movespeed, rb.velocity.y);
             moveright = true;

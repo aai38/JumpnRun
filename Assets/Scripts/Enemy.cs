@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
 
     private Transform target;
 
-    private health health = new health();
+    private health health;
 
 
     public GameObject gameObject;
@@ -55,6 +55,7 @@ public class Enemy : MonoBehaviour
 		if (name == "Character")
 		{
             Debug.Log("hit character");
+            health = GameObject.FindWithTag("health_script").GetComponent<health>();
             health.DestroyHeart();
 			// Destroy itself (the enemy) to keep things simple
 			//TODO leben
