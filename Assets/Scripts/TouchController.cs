@@ -12,6 +12,10 @@ public class TouchController : MonoBehaviour
         player = FindObjectOfType<Controll>();
     }
 
+    void Update() {
+        SwipeCheck();
+    }
+
    
     public void LeftArrow()
     {
@@ -31,5 +35,35 @@ public class TouchController : MonoBehaviour
     {
         player.moveright = false;
 
+    }
+
+    private void SwipeCheck()
+    {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            startTouchPosition = Input.GetTouch(0).position;
+        }
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            endTouchPosition = Input.GetTouch(0).position;
+            if (endTouchPosition.y > startTouchPosition.y && rb.velocity.y == 0)
+            {
+                jumpAllowed = true;
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        JumpIfAllowed();
+    }
+
+    private void JumpIfAllowed()
+    {
+        if (jumpAllowed)
+        {
+            rb.AddForce(Vector2.up * jumpForce);
+            jumpAllowed = false;
+        }
     }
 }
