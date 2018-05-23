@@ -5,12 +5,14 @@ using UnityEngine;
 public class UIManager : MonoBehaviour {
 
 	GameObject[] pauseObjects;
+    GameObject pausePlay;
 
 	// Use this for initialization
 	void Start()
 	{
 		Time.timeScale = 1;
 		pauseObjects = GameObject.FindGameObjectsWithTag("ShowOnPause");
+        pausePlay = GameObject.FindGameObjectWithTag("Pause");
 		hidePaused();
 	}
 
@@ -25,10 +27,11 @@ public class UIManager : MonoBehaviour {
 			{
 				Time.timeScale = 0;
 				showPaused();
+                //TODO button changes from Pause to Play
+                //pausePlay.transform.guiText();
 			}
 			else if (Time.timeScale == 0)
 			{
-				Debug.Log("high");
 				Time.timeScale = 1;
 				hidePaused();
 			}

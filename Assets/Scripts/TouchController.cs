@@ -13,7 +13,6 @@ public class TouchController : MonoBehaviour
     }
 
     void Update() {
-        SwipeCheck();
     }
 
    
@@ -36,34 +35,18 @@ public class TouchController : MonoBehaviour
         player.moveright = false;
 
     }
-
-    private void SwipeCheck()
-    {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            startTouchPosition = Input.GetTouch(0).position;
-        }
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
-        {
-            endTouchPosition = Input.GetTouch(0).position;
-            if (endTouchPosition.y > startTouchPosition.y && rb.velocity.y == 0)
-            {
-                jumpAllowed = true;
-            }
-        }
+    public void UpArrow() {
+        player.moveup = true;
+    }
+    public void ReleaseUpArrow() {
+        player.moveup = false;
+    }
+    public void Shoot () {
+        player.shoot = true;
+    }
+    public void ReleaseShoot(){
+        player.shoot = false;
     }
 
-    private void FixedUpdate()
-    {
-        JumpIfAllowed();
-    }
 
-    private void JumpIfAllowed()
-    {
-        if (jumpAllowed)
-        {
-            rb.AddForce(Vector2.up * jumpForce);
-            jumpAllowed = false;
-        }
-    }
 }

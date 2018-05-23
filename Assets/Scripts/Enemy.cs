@@ -49,6 +49,7 @@ public class Enemy : MonoBehaviour
 			Destroy(obj.gameObject);
             Debug.Log("hit enemy");
             //TODO Score-Methode aufrufen
+            Score.scoreValue += 50;
 		}
 
 		// If the enemy collided with the character
@@ -56,9 +57,10 @@ public class Enemy : MonoBehaviour
 		{
             Debug.Log("hit character");
             health = GameObject.FindWithTag("health_script").GetComponent<health>();
+            Destroy(gameObject);
             health.DestroyHeart();
 			// Destroy itself (the enemy) to keep things simple
-			//TODO leben
+			
 		}
 	}
 }

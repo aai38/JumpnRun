@@ -5,20 +5,34 @@ using TMPro;
 
 public class CoinCounter : MonoBehaviour {
 
-    private int coinAmount;
+    private static int coinAmount = 0;
+    TextMeshProUGUI mText;
 
     void Start()
     {
-        coinAmount = 0;
+        
+        mText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
     }
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-        TextMeshProUGUI mText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
-        coinAmount += 1;
-        mText.SetText("" + coinAmount);
+        var name = col.gameObject.name;
+
+
+        if(name == "Character") {
+            coinAmount += 1;
+            mText.SetText("" + coinAmount);
+            Destroy(gameObject);
+        } else if (name == "bullet(Clone)") {
+            Destroy(gameObject);
+            Destroy(col.gameObject);
+        }
 		
-		Destroy (gameObject);
 	}
-	
+
+    private void Update()
+    {
+        mText.SetText("" + coinAmount);
+    }
+
 }

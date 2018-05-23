@@ -9,43 +9,92 @@ public class Controll : MonoBehaviour
     public float turnSpeed;
     public bool moveright;
     public bool moveleft;
+    public bool shootleft;
+    public bool shootright;
+    public bool shoot;
+    public bool moveup;
+    public bool isKeyEnabled = true;
     public Vector2 jumpHeight;
     public GameObject bullet;
     public Vector2 offset = new Vector2(0.4f, 0.1f);
     public Vector2 velocity;
     private SpriteRenderer mySpriteRenderer;
+    public int bulletSpeed = 5500;
+
+
 
     private bool jumpAllowed = false;
     private Vector2 startTouchPosition, endTouchPosition;
     private float jumpForce = 700f;
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
+        mySpriteRenderer.flipX = false;
 
     }
 
     void Update()
     {
-        SwipeCheck();
+        //SwipeCheck();
 
         //TODO nicht die ganze zeit in eine Richtung -> Taste nicht mehr gedrückt
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             rb.velocity = new Vector2(-movespeed, rb.velocity.y);
-            moveright = false;
-			moveleft = true;
+            shootleft = true;
+            shootright = false;
+            //moveright = false;
+            //moveleft = true;
+            mySpriteRenderer.flipX = false;
 
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             rb.velocity = new Vector2(movespeed, rb.velocity.y);
-            moveright = true;
-            moveleft = false;
+            shootleft = false;
+            shootright = true;
+            mySpriteRenderer.flipX = true;
+            //moveright = true;
+            //moveleft = false;
 
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isKeyEnabled)
+        {
+            GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
+            if (shootleft)
+            {
+                //shoot = true;
+
+                b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
+                Vector3 newScale = b.transform.localScale;
+                newScale.x *= -1;
+                b.transform.localScale = newScale;
+                //TODO offset
+                //b.transform.position = (Vector2)transform.position + transform.localScale.x * -offset;
+
+                StartCoroutine(Freeze());
+
+            }
+            else
+            {
+                //shoot = true;
+                b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
+                StartCoroutine(Freeze());
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isKeyEnabled)  //makes player jump
+        {
+            //moveup = true;
+            rb.AddForce(jumpHeight, ForceMode2D.Impulse);
+            StartCoroutine(Freeze());
+        }
+
         if (moveright)
         {
             rb.velocity = new Vector2(movespeed, rb.velocity.y);
@@ -56,22 +105,36 @@ public class Controll : MonoBehaviour
             rb.velocity = new Vector2(-movespeed, rb.velocity.y);
             mySpriteRenderer.flipX = false;
         }
-        if ( Input.GetKeyDown(KeyCode.UpArrow))  //makes player jump
-        {
 
+        if (moveup && isKeyEnabled)
+        {
             rb.AddForce(jumpHeight, ForceMode2D.Impulse);
+            StartCoroutine(Freeze());
         }
 
-
-        if(Input.GetKeyDown(KeyCode.Space)) {
+        if (shoot && isKeyEnabled)
+        {
             GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
-            if (moveleft)
+            if (moveleft || (!(moveleft && moveright) && mySpriteRenderer.flipX == false))
             {
-                b.GetComponent<Rigidbody2D>().AddForce(-transform.right * 5000);
-
-            } else {
-                b.GetComponent<Rigidbody2D>().AddForce(transform.right * 5000);
+                b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
+                StartCoroutine(Freeze());
             }
+            else
+            {
+                b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
+                StartCoroutine(Freeze());
+            }
+        }
+    }
+
+
+    IEnumerator Freeze()
+    {
+        isKeyEnabled = false;
+        yield return new WaitForSeconds(0.8f);
+        isKeyEnabled = true;
+    }
 
                 /*
         if (Input.touches.Length > 0)
@@ -102,10 +165,10 @@ public class Controll : MonoBehaviour
 
 */
 
-        }
-    }
+        
+    
 
-    private void SwipeCheck() {
+   /* private void SwipeCheck() {
         if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began) {
             startTouchPosition = Input.GetTouch(0).position;
         }
@@ -126,5 +189,5 @@ public class Controll : MonoBehaviour
             rb.AddForce(Vector2.up * jumpForce);
             jumpAllowed = false;
         }
-    }
+    }*/
 }
