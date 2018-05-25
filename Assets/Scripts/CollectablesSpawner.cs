@@ -6,8 +6,9 @@ public class CollectablesSpawner : MonoBehaviour {
 
     public GameObject collectables;
     float randX;
+    float randY;
     Vector2 whereToSpawn;
-    public float spawnRate = 5f;
+    public float spawnRate = 2f;
     float nextSpawn = 0.0f;
 
 
@@ -21,8 +22,9 @@ public class CollectablesSpawner : MonoBehaviour {
         if (Time.time > nextSpawn)
         {
             nextSpawn = Time.time + spawnRate;
-            randX = Random.Range(609f, 242f);
-            whereToSpawn = new Vector2(randX, transform.position.y);
+            randX = Random.Range(30f, 805f);
+            randY = Random.Range(335f, 55f);
+            whereToSpawn = new Vector2(randX,randY);
             Instantiate(collectables, whereToSpawn, Quaternion.identity);
         }
 
