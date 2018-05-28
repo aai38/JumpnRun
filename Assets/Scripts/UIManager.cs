@@ -1,19 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
 	GameObject[] pauseObjects;
-    GameObject pausePlay;
+    Text playPause;
+    public Button change;
 
 	// Use this for initialization
 	void Start()
 	{
 		Time.timeScale = 1;
 		pauseObjects = GameObject.FindGameObjectsWithTag("ShowOnPause");
-        pausePlay = GameObject.FindGameObjectWithTag("Pause");
 		hidePaused();
+        playPause = change.GetComponentInChildren<Text>();
 	}
 
 	// Update is called once per frame
@@ -27,13 +29,13 @@ public class UIManager : MonoBehaviour {
 			{
 				Time.timeScale = 0;
 				showPaused();
-                //TODO button changes from Pause to Play
-                //pausePlay.transform.guiText();
+                playPause.text = "Play";
 			}
 			else if (Time.timeScale == 0)
 			{
 				Time.timeScale = 1;
 				hidePaused();
+                playPause.text = "Pause";
 			}
 		}
 	}
@@ -52,11 +54,13 @@ public class UIManager : MonoBehaviour {
 		{
 			Time.timeScale = 0;
 			showPaused();
+            playPause.text = "Play";
 		}
 		else if (Time.timeScale == 0)
 		{
 			Time.timeScale = 1;
 			hidePaused();
+            playPause.text = "Pause";
 		}
 	}
 

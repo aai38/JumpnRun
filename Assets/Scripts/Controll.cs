@@ -16,7 +16,7 @@ public class Controll : MonoBehaviour
     public bool isKeyEnabled = true;
     public Vector2 jumpHeight;
     public GameObject bullet;
-    public Vector2 offset = new Vector2(0.4f, 0.1f);
+    public Vector2 offset = new Vector2();
     public Vector2 velocity;
     private SpriteRenderer mySpriteRenderer;
     public int bulletSpeed = 5500;
@@ -33,14 +33,14 @@ public class Controll : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
         mySpriteRenderer.flipX = false;
-
+        shootleft = true;
+        shootright = false;
     }
 
     void Update()
     {
         //SwipeCheck();
 
-        //TODO nicht die ganze zeit in eine Richtung -> Taste nicht mehr gedrückt
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -65,25 +65,27 @@ public class Controll : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && isKeyEnabled)
         {
-            GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
+            //GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
             if (shootleft)
             {
                 //shoot = true;
-
+                GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * -offset, Quaternion.identity));
                 b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
-                Vector3 newScale = b.transform.localScale;
-                newScale.x *= -1;
-                b.transform.localScale = newScale;
-                //TODO offset
-                //b.transform.position = (Vector2)transform.position + transform.localScale.x * -offset;
-
                 StartCoroutine(Freeze());
 
             }
             else
             {
                 //shoot = true;
-                b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
+                GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
+
+				//TODO offset
+				//b.transform.position = (Vector2)transform.position + transform.localScale.x * -offset;
+				/*Vector3 newScale = b.transform.localScale;
+				newScale.y *= -1;
+				b.transform.localScale = newScale;*/
+
+				b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
                 StartCoroutine(Freeze());
             }
         }
@@ -114,14 +116,16 @@ public class Controll : MonoBehaviour
 
         if (shoot && isKeyEnabled)
         {
-            GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
+            
             if (moveleft || (!(moveleft && moveright) && mySpriteRenderer.flipX == false))
             {
+                GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * -offset, Quaternion.identity));
                 b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
                 StartCoroutine(Freeze());
             }
             else
             {
+                GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
                 b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
                 StartCoroutine(Freeze());
             }
