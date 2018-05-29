@@ -9,11 +9,13 @@ public class health : MonoBehaviour {
     public GameObject heart_0;
     public GameObject heart_1;
     public GameObject heart_2;
+    public GameObject died_text;
 
 
 	// Use this for initialization
 	void Start () {
         health_count = 3;
+
 	}
 	
 	// Update is called once per frame
@@ -28,7 +30,16 @@ public class health : MonoBehaviour {
             health_count--;
             heart_0.SetActive(false);
 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+
+           
+            died_text.SetActive(true);
+
+
+
+            StartCoroutine(Freeze());
+
+           
         }
         else if (health_count == 2)
         {
@@ -42,5 +53,14 @@ public class health : MonoBehaviour {
             heart_2.SetActive(false);
             health_count--;
         }
+    }
+
+    IEnumerator Freeze()
+    {
+        
+        yield return new WaitForSeconds(3);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
     }
 }

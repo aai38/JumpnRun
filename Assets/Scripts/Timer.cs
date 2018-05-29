@@ -7,9 +7,10 @@ using TMPro;
 public class Timer : MonoBehaviour {
 
     private float timeLeft;
+    public GameObject timeover_text;
 	// Use this for initialization
 	void Start () {
-        timeLeft = 180;
+        timeLeft = 18;
 	}
 	
 	// Update is called once per frame
@@ -19,8 +20,9 @@ public class Timer : MonoBehaviour {
 
         int timeToShow = (int) timeLeft;
         mText.SetText("time: " + timeToShow / 60 + ":" + timeToShow % 60);
-        if (timeLeft < 0)
+        if (timeLeft <= 0)
         {
+            timeLeft = 0;
             GameOver();
         }
 	}
@@ -28,8 +30,21 @@ public class Timer : MonoBehaviour {
     private void GameOver() {
         TextMeshProUGUI mText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
 
+        timeover_text.SetActive(true);
+
+        StartCoroutine(Freeze());
+
         //PlayerPrefs.SetInt("highscore" , mText);
+
+    }
+
+    IEnumerator Freeze()
+    {
+
+        yield return new WaitForSeconds(3);
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
     }
         
 }
