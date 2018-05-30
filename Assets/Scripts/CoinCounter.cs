@@ -6,12 +6,14 @@ using TMPro;
 public class CoinCounter : MonoBehaviour {
 
     private static int coinAmount = 0;
+    public static int coinAmountTotal;
     TextMeshProUGUI mText;
 
     void Start()
     {
         
         mText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
+        coinAmountTotal = PlayerPrefs.GetInt("collectables");
     }
 
 	void OnTriggerEnter2D(Collider2D col)
@@ -33,6 +35,9 @@ public class CoinCounter : MonoBehaviour {
     private void Update()
     {
         mText.SetText("" + coinAmount);
+        if(coinAmount > 0) {
+            PlayerPrefs.SetInt("collectables", coinAmount + coinAmountTotal);
+        }
     }
 
 }

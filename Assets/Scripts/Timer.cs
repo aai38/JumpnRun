@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour {
     public GameObject timeover_text;
 	// Use this for initialization
 	void Start () {
-        timeLeft = 18;
+        timeLeft = 60;
 	}
 	
 	// Update is called once per frame

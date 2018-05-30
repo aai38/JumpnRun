@@ -8,6 +8,7 @@ public class Score : MonoBehaviour
 
     public static int scoreValue;
     private TextMeshProUGUI score;
+    private int highscore;
 
 
     // Use this for initialization
@@ -16,6 +17,7 @@ public class Score : MonoBehaviour
         scoreValue = 0;
         score = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
         score.SetText("Score: " + scoreValue);
+        highscore = PlayerPrefs.GetInt("highscore");
 
     }
 
@@ -23,6 +25,9 @@ public class Score : MonoBehaviour
     void Update()
     {
         score.SetText( "Score: " + scoreValue);
+        if(scoreValue > highscore) {
+            PlayerPrefs.SetInt("highscore", scoreValue);
+        }
     }
 }
 
