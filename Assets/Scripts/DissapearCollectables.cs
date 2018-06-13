@@ -5,7 +5,7 @@ using UnityEngine;
 public class DissapearCollectables : MonoBehaviour
 {
 
-    float lifeTime = 5.0f;
+    float lifeTime = 10.0f;
 
     void Awake()
     { Destroy(gameObject, lifeTime); }

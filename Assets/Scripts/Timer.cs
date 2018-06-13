@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour {
     public GameObject timeover_text;
 	// Use this for initialization
 	void Start () {
-        timeLeft = 60;
+        timeLeft = 180;
 	}
 	
 	// Update is called once per frame
@@ -43,7 +43,7 @@ public class Timer : MonoBehaviour {
 
         yield return new WaitForSeconds(3);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("Endscreen");
 
     }
         

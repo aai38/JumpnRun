@@ -7,6 +7,6 @@ public class PlayAgain : MonoBehaviour {
 
     public void LoadLevel()
     {
-        SceneManager.LoadScene("environment");
+        SceneManager.LoadScene("Forest");
     }
 }

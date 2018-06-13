@@ -20,6 +20,8 @@ public class Controll : MonoBehaviour
     public Vector2 velocity;
     private SpriteRenderer mySpriteRenderer;
     public int bulletSpeed = 5500;
+    private AudioSource shootAudio;
+
 
 
 
@@ -35,6 +37,8 @@ public class Controll : MonoBehaviour
         mySpriteRenderer.flipX = false;
         shootleft = true;
         shootright = false;
+        shootAudio = gameObject.AddComponent<AudioSource>();
+        shootAudio.clip = Resources.Load("fire") as AudioClip;
     }
 
     void Update()
@@ -71,6 +75,7 @@ public class Controll : MonoBehaviour
                 //shoot = true;
                 GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * -offset, Quaternion.identity));
                 b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
+                shootAudio.Play();
                 StartCoroutine(Freeze());
 
             }
@@ -78,7 +83,7 @@ public class Controll : MonoBehaviour
             {
                 //shoot = true;
                 GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
-
+                shootAudio.Play();
 				//TODO offset
 				//b.transform.position = (Vector2)transform.position + transform.localScale.x * -offset;
 				/*Vector3 newScale = b.transform.localScale;
@@ -121,12 +126,14 @@ public class Controll : MonoBehaviour
             {
                 GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * -offset, Quaternion.identity));
                 b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
+                shootAudio.Play();
                 StartCoroutine(Freeze());
             }
             else
             {
                 GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
                 b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
+                shootAudio.Play();
                 StartCoroutine(Freeze());
             }
         }
@@ -140,58 +147,6 @@ public class Controll : MonoBehaviour
         isKeyEnabled = true;
     }
 
-                /*
-        if (Input.touches.Length > 0)
-        {
-            Touch t = Input.GetTouch(0);
-            if (t.phase == TouchPhase.Began)
-            {
-                //save began touch 2d point
-                firstPressPos = new Vector2(t.position.x, t.position.y);
-            }
-            if (t.phase == TouchPhase.Ended)
-            {
-                //save ended touch 2d point
-                secondPressPos = new Vector2(t.position.x, t.position.y);
+       
 
-                //create vector from the two points
-                currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
-
-                //normalize the 2d vector
-                currentSwipe.Normalize();
-
-                //swipe upwards
-                if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
-                {
-                    Debug.Log("up swipe");
-                }
-                //swipe down
-
-*/
-
-        
-    
-
-   /* private void SwipeCheck() {
-        if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began) {
-            startTouchPosition = Input.GetTouch(0).position;
-        }
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) {
-            endTouchPosition = Input.GetTouch(0).position;
-            if(endTouchPosition.y > startTouchPosition.y && rb.velocity.y == 0) {
-                jumpAllowed = true; 
-            }
-        }
-    }
-
-    private void FixedUpdate() {
-        JumpIfAllowed();
-    }
-
-    private void JumpIfAllowed() {
-        if (jumpAllowed) {
-            rb.AddForce(Vector2.up * jumpForce);
-            jumpAllowed = false;
-        }
-    }*/
 }

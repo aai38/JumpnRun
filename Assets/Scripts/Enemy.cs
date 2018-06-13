@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour
 
     public GameObject gameObject;
 
+    private Animation animation;
+
     public Collider2D rb;
 
 
@@ -39,15 +41,17 @@ public class Enemy : MonoBehaviour
 		var name = obj.gameObject.name;
         obj.isTrigger = true;
 
-        Debug.Log(name);
+
 
 		// If the enemy collided with a bullet
 		if (name == "bullet(Clone)")
 		{
 			// Destroy itself (the enemy) and the bullet
-			Destroy(gameObject);
+            animation = GameObject.Find("EnemyPrefab(Clone)").GetComponent<Animation>();
+            animation.Play();
+
+            Destroy(gameObject, animation.clip.length);
 			Destroy(obj.gameObject);
-            Debug.Log("hit enemy");
             //TODO Score-Methode aufrufen
             Score.scoreValue += 50;
 		}
@@ -55,10 +59,10 @@ public class Enemy : MonoBehaviour
 		// If the enemy collided with the character
 		if (name == "Character")
 		{
-            Debug.Log("hit character");
             health = GameObject.FindWithTag("health_script").GetComponent<health>();
             Destroy(gameObject);
             health.DestroyHeart();
+            GameObject.Find("Character").GetComponent<Animation>().Play("EnemyDie");
 			// Destroy itself (the enemy) to keep things simple
 			
 		}

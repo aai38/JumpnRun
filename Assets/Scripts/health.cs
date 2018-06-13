@@ -60,7 +60,7 @@ public class health : MonoBehaviour {
         
         yield return new WaitForSeconds(3);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("Endscreen");
 
     }
 }
