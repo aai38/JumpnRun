@@ -21,7 +21,7 @@ public class Controll : MonoBehaviour
     private SpriteRenderer mySpriteRenderer;
     public int bulletSpeed = 5500;
     private AudioSource shootAudio;
-
+    private AudioSource jumpAudio;
 
 
 
@@ -38,7 +38,9 @@ public class Controll : MonoBehaviour
         shootleft = true;
         shootright = false;
         shootAudio = gameObject.AddComponent<AudioSource>();
-        shootAudio.clip = Resources.Load("fire") as AudioClip;
+        shootAudio.clip = Resources.Load("shoot") as AudioClip;
+        jumpAudio = gameObject.AddComponent<AudioSource>();
+        jumpAudio.clip = Resources.Load("jump") as AudioClip;
     }
 
     void Update()
@@ -98,6 +100,7 @@ public class Controll : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow) && isKeyEnabled)  //makes player jump
         {
             //moveup = true;
+            jumpAudio.Play();
             rb.AddForce(jumpHeight, ForceMode2D.Impulse);
             StartCoroutine(Freeze());
         }
@@ -114,7 +117,9 @@ public class Controll : MonoBehaviour
         }
 
         if (moveup && isKeyEnabled)
+        
         {
+            jumpAudio.Play();
             rb.AddForce(jumpHeight, ForceMode2D.Impulse);
             StartCoroutine(Freeze());
         }
