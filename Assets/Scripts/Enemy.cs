@@ -20,12 +20,16 @@ public class Enemy : MonoBehaviour
 
     public Collider2D rb;
 
+    private AudioSource hitAudio;
+
 
     // Use this for initialization
     void Start()
     {
         target = GameObject.FindWithTag("Player").transform;
 
+        hitAudio = gameObject.AddComponent<AudioSource>();
+        hitAudio.clip = Resources.Load("fire") as AudioClip;
 
     }
 
@@ -59,6 +63,7 @@ public class Enemy : MonoBehaviour
 		// If the enemy collided with the character
 		if (name == "Character")
 		{
+            hitAudio.Play();
             health = GameObject.FindWithTag("health_script").GetComponent<health>();
             Destroy(gameObject);
             health.DestroyHeart();

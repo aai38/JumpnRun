@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayAgain : MonoBehaviour {
 
+
+
     public void LoadLevel()
     {
         SceneManager.LoadScene("Forest");

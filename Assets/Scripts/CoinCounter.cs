@@ -33,8 +33,8 @@ public class CoinCounter : MonoBehaviour {
             mText.SetText("" + coinAmount);
 
             //noch buggy!
-            Destroy(gameObject, collectAudio.clip.length);
-            // Destroy(gameObject);
+            
+            Destroy(gameObject);
 
         }
         else if (name == "bullet(Clone)") {
