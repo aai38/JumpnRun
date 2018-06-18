@@ -51,11 +51,11 @@ public class Enemy : MonoBehaviour
 		if (name == "bullet(Clone)")
 		{
 			// Destroy itself (the enemy) and the bullet
-            animation = GameObject.Find("EnemyPrefab(Clone)").GetComponent<Animation>();
-            animation.Play();
 
-            Destroy(gameObject, animation.clip.length);
+
+           
 			Destroy(obj.gameObject);
+            Destroy(gameObject);
             //TODO Score-Methode aufrufen
             Score.scoreValue += 50;
 		}

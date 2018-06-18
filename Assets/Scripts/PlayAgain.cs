@@ -5,10 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class PlayAgain : MonoBehaviour {
 
+    private static string level_played;
 
+    void Start() {
+        level_played = PlayerPrefs.GetString("level_played");
+    }
 
     public void LoadLevel()
     {
-        SceneManager.LoadScene("Forest");
+        SceneManager.LoadScene(level_played);
     }
 }
