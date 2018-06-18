@@ -8,6 +8,10 @@ public class Menu : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void CharacterSelection() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 6);
+    }
+
     void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) 
         { 
