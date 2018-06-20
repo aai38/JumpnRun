@@ -9,14 +9,17 @@ public class CoinCounter : MonoBehaviour {
     public static int coinAmountTotal;
     TextMeshProUGUI mText;
     private AudioSource collectAudio;
+    private GameObject player;
 
     void Start()
     {
         
         mText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
         coinAmountTotal = PlayerPrefs.GetInt("collectables");
-        
-        collectAudio = gameObject.AddComponent<AudioSource>();
+
+
+        player = GameObject.FindWithTag("Player");
+        collectAudio = player.AddComponent<AudioSource>();
         collectAudio.clip = Resources.Load("collect") as AudioClip;
 
 
@@ -40,6 +43,9 @@ public class CoinCounter : MonoBehaviour {
         else if (name == "bullet(Clone)") {
             Destroy(gameObject);
             Destroy(col.gameObject);
+        }
+        else {
+            
         }
 		
 	}
