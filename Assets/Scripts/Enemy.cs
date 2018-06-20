@@ -22,13 +22,16 @@ public class Enemy : MonoBehaviour
 
     private AudioSource hitAudio;
 
+    public GameObject bullet;
+
 
     // Use this for initialization
     void Start()
     {
         target = GameObject.FindWithTag("Player").transform;
 
-        hitAudio = gameObject.AddComponent<AudioSource>();
+        bullet = GameObject.FindWithTag("Bullet");
+        hitAudio = bullet.AddComponent<AudioSource>();
         hitAudio.clip = Resources.Load("fire") as AudioClip;
 
     }
@@ -44,17 +47,17 @@ public class Enemy : MonoBehaviour
 		// Name of the object that collided with the enemy
 		var name = obj.gameObject.name;
         obj.isTrigger = true;
+    
 
 
 
-		// If the enemy collided with a bullet
-		if (name == "bullet(Clone)")
+        // If the enemy collided with a bullet
+        if (name == "bullet(Clone)")
 		{
-			// Destroy itself (the enemy) and the bullet
+            // Destroy itself (the enemy) and the bullet
+            hitAudio.Play();
 
-
-           
-			Destroy(obj.gameObject);
+            Destroy(obj.gameObject);
             Destroy(gameObject);
             //TODO Score-Methode aufrufen
             Score.scoreValue += 50;
@@ -63,7 +66,7 @@ public class Enemy : MonoBehaviour
 		// If the enemy collided with the character
 		if (name == "Character")
 		{
-            hitAudio.Play();
+           
             health = GameObject.FindWithTag("health_script").GetComponent<health>();
             Destroy(gameObject);
             health.DestroyHeart();
