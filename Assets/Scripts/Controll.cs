@@ -38,7 +38,7 @@ public class Controll : MonoBehaviour
         shootleft = true;
         shootright = false;
         shootAudio = gameObject.AddComponent<AudioSource>();
-        shootAudio.clip = Resources.Load("shoot") as AudioClip;
+        shootAudio.clip = Resources.Load("shoot2") as AudioClip;
         jumpAudio = gameObject.AddComponent<AudioSource>();
         jumpAudio.clip = Resources.Load("jump") as AudioClip;
     }

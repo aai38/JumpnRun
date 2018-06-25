@@ -18,11 +18,17 @@ public class Hard_Enemy : MonoBehaviour
 
     public GameObject gameObject;
 
+    public GameObject enemy;
+
+    public GameObject bullet;
+
     private Animation animation;
 
     public Collider2D rb;
 
     private AudioSource hitAudio;
+
+    private AudioSource hurtAudio;
 
 
     // Use this for initialization
@@ -31,8 +37,14 @@ public class Hard_Enemy : MonoBehaviour
         damage = 0;
         target = GameObject.FindWithTag("Player").transform;
 
-        hitAudio = gameObject.AddComponent<AudioSource>();
+
+        bullet = GameObject.FindWithTag("Bullet");
+        hitAudio = bullet.AddComponent<AudioSource>();
         hitAudio.clip = Resources.Load("fire") as AudioClip;
+
+        enemy = GameObject.FindWithTag("enemy");
+        hurtAudio = enemy.AddComponent<AudioSource>();
+        hurtAudio.clip = Resources.Load("hit") as AudioClip;
 
     }
 
@@ -62,7 +74,7 @@ public class Hard_Enemy : MonoBehaviour
             else if (damage == 1)
             {
 
-
+                hitAudio.Play();
                 Destroy(obj.gameObject);
                 Destroy(gameObject);
                 //TODO Score-Methode aufrufen
@@ -73,7 +85,7 @@ public class Hard_Enemy : MonoBehaviour
         // If the enemy collided with the character
         if (name == "Character")
         {
-            hitAudio.Play();
+            hurtAudio.Play();
             health = GameObject.FindWithTag("health_script").GetComponent<health>();
             Destroy(gameObject);
             health.DestroyHeart();

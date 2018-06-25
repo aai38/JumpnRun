@@ -22,7 +22,11 @@ public class Enemy : MonoBehaviour
 
     private AudioSource hitAudio;
 
+    private AudioSource hurtAudio;
+
     public GameObject bullet;
+
+    public GameObject enemy;
 
 
     // Use this for initialization
@@ -33,6 +37,10 @@ public class Enemy : MonoBehaviour
         bullet = GameObject.FindWithTag("Bullet");
         hitAudio = bullet.AddComponent<AudioSource>();
         hitAudio.clip = Resources.Load("fire") as AudioClip;
+
+        enemy = GameObject.FindWithTag("enemy");
+        hurtAudio = enemy.AddComponent<AudioSource>();
+        hurtAudio.clip = Resources.Load("hit") as AudioClip;
 
     }
 
@@ -66,7 +74,7 @@ public class Enemy : MonoBehaviour
 		// If the enemy collided with the character
 		if (name == "Character")
 		{
-           
+            hurtAudio.Play();
             health = GameObject.FindWithTag("health_script").GetComponent<health>();
             Destroy(gameObject);
             health.DestroyHeart();
