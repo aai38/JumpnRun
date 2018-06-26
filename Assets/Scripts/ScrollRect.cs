@@ -8,6 +8,8 @@ public class ScrollRect : MonoBehaviour {
 
     public RectTransform panel;
     public Button[] buttons;
+    public Button selectButton;
+    public Button purchaseButton;
     public RectTransform center;
 
     private float[] distance;
@@ -15,6 +17,7 @@ public class ScrollRect : MonoBehaviour {
     private int buttonDistance;
     private int minButtonNum;
     private Animation wiggle;
+    private GameObject selectedCharacter;
     private bool targetNearestButton = true;
 
 	// Use this for initialization
@@ -25,7 +28,8 @@ public class ScrollRect : MonoBehaviour {
         buttonDistance = (int)Mathf.Abs(buttons[1].GetComponent<RectTransform>().anchoredPosition.x - buttons[0].GetComponent<RectTransform>().anchoredPosition.x);
         //buttons.onClick.AddListener(TaskOnClick());
 
-
+        purchaseButton.gameObject.SetActive(true);
+        selectButton.gameObject.SetActive(true);
     }
 	
 	// Update is called once per frame
@@ -47,12 +51,14 @@ public class ScrollRect : MonoBehaviour {
 
                     wiggle = GameObject.Find("Player" + (minButtonNum + 1)).GetComponent<Animation>();
                     wiggle.Play("CharacterAnimationSelection");
+                    SaveSelectedCharacter(minButtonNum);
                 }
             }
 
             if (!dragging)
             {
                 LerpToButton(minButtonNum * -buttonDistance);
+
             }
 
 
@@ -81,9 +87,10 @@ public class ScrollRect : MonoBehaviour {
         }*/
 
         //Selects Button that is in Center
-        /*if (Mathf.Abs(newX) >= Mathf.Abs(position) - 1f && Mathf.Abs(newX) <= Mathf.Abs(position) + 1) {
-            //buttons[minButtonNum].Select();
-        }*/
+        if (Mathf.Abs(newX) >= Mathf.Abs(position) - 1f && Mathf.Abs(newX) <= Mathf.Abs(position) + 1) {
+			//buttons[minButtonNum].Select();
+			
+		}
 
         Vector2 newPosition = new Vector2(newX, panel.anchoredPosition.y);
 
@@ -93,14 +100,34 @@ public class ScrollRect : MonoBehaviour {
 
     public void StartDrag() {
         dragging = true;
+		purchaseButton.gameObject.SetActive(false);
+		selectButton.gameObject.SetActive(false);
     }
 
     public void EndDrag () {
         dragging = false;
+		purchaseButton.gameObject.SetActive(true);
+		selectButton.gameObject.SetActive(true);
     }
 
     public void TaskOnClick(int buttonIndex) {
         targetNearestButton = false;
         minButtonNum = buttonIndex;
     }
+
+    public void SaveSelectedCharacter(int number) {
+        selectedCharacter = GameObject.Find("Player" + (number + 1)).GetComponent<GameObject>();
+		
+    }
+
+    public void SelectOnClick () {
+
+        if(minButtonNum == 6) {
+            PlayerPrefs.SetInt("CharacterChoice", 11);
+        } else {
+            PlayerPrefs.SetInt("CharacterChoice", minButtonNum);
+        }
+
+        Debug.Log(minButtonNum);
+    } 
 }

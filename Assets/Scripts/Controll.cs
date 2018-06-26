@@ -23,6 +23,10 @@ public class Controll : MonoBehaviour
     private AudioSource shootAudio;
     private AudioSource jumpAudio;
 
+    private string name;
+    private int characterSelection;
+    private Sprite characterSprite;
+    private Sprite[] sprites;
 
 
     private bool jumpAllowed = false;
@@ -34,7 +38,20 @@ public class Controll : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
-        mySpriteRenderer.flipX = false;
+
+        //TODO
+        characterSelection = PlayerPrefs.GetInt("CharacterChoice");
+        //name = "monsters_test_" + characterSelection;
+        sprites = Resources.LoadAll<Sprite>("monsters_test");
+        mySpriteRenderer.sprite = sprites[characterSelection];
+        Debug.Log(characterSelection);
+
+        if(characterSelection != 2) {
+            mySpriteRenderer.flipX = false;
+		} else {
+			mySpriteRenderer.flipX = true;
+		}
+
         shootleft = true;
         shootright = false;
         shootAudio = gameObject.AddComponent<AudioSource>();
@@ -42,6 +59,8 @@ public class Controll : MonoBehaviour
         jumpAudio = gameObject.AddComponent<AudioSource>();
         jumpAudio.clip = Resources.Load("jump") as AudioClip;
     }
+
+
 
     void Update()
     {
@@ -53,9 +72,17 @@ public class Controll : MonoBehaviour
             rb.velocity = new Vector2(-movespeed, rb.velocity.y);
             shootleft = true;
             shootright = false;
-            //moveright = false;
-            //moveleft = true;
-            mySpriteRenderer.flipX = false;
+			//moveright = false;
+			//moveleft = true;
+			if (characterSelection != 2)
+			{
+				mySpriteRenderer.flipX = false;
+			}
+			else
+			{
+				mySpriteRenderer.flipX = true;
+			}
+
 
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -63,7 +90,12 @@ public class Controll : MonoBehaviour
             rb.velocity = new Vector2(movespeed, rb.velocity.y);
             shootleft = false;
             shootright = true;
-            mySpriteRenderer.flipX = true;
+			if (characterSelection != 2)
+			{
+				mySpriteRenderer.flipX = false;
+            } else {
+                mySpriteRenderer.flipX = true;
+            }
             //moveright = true;
             //moveleft = false;
 
@@ -86,7 +118,7 @@ public class Controll : MonoBehaviour
                 //shoot = true;
                 GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
                 shootAudio.Play();
-				//TODO offset
+				//offset:
 				//b.transform.position = (Vector2)transform.position + transform.localScale.x * -offset;
 				/*Vector3 newScale = b.transform.localScale;
 				newScale.y *= -1;
@@ -108,12 +140,26 @@ public class Controll : MonoBehaviour
         if (moveright)
         {
             rb.velocity = new Vector2(movespeed, rb.velocity.y);
-            mySpriteRenderer.flipX = true;
+			if (characterSelection != 2)
+			{
+				mySpriteRenderer.flipX = true;
+            } else {
+                mySpriteRenderer.flipX = false;
+            }
+
         }
         if (moveleft)
         {
             rb.velocity = new Vector2(-movespeed, rb.velocity.y);
-            mySpriteRenderer.flipX = false;
+			if (characterSelection != 2)
+			{
+                mySpriteRenderer.flipX = false;
+			}
+			else
+			{
+				mySpriteRenderer.flipX = true;
+			}
+
         }
 
         if (moveup && isKeyEnabled)
