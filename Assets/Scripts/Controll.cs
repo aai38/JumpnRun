@@ -46,12 +46,14 @@ public class Controll : MonoBehaviour
         mySpriteRenderer.sprite = sprites[characterSelection];
         Debug.Log(characterSelection);
 
-        if(characterSelection != 2) {
-            mySpriteRenderer.flipX = false;
-		} else {
-			mySpriteRenderer.flipX = true;
-		}
 
+        //mySpriteRenderer.flipX = false;
+        if(characterSelection == 2) {
+            mySpriteRenderer.flipX = true;
+        } else {
+            mySpriteRenderer.flipX = false;
+        }
+		
         shootleft = true;
         shootright = false;
         shootAudio = gameObject.AddComponent<AudioSource>();
@@ -74,28 +76,33 @@ public class Controll : MonoBehaviour
             shootright = false;
 			//moveright = false;
 			//moveleft = true;
-			if (characterSelection != 2)
-			{
-				mySpriteRenderer.flipX = false;
-			}
-			else
+			
+			//mySpriteRenderer.flipX = false;
+			if (characterSelection == 2)
 			{
 				mySpriteRenderer.flipX = true;
 			}
-
-
+			else
+			{
+				mySpriteRenderer.flipX = false;
+			}
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             rb.velocity = new Vector2(movespeed, rb.velocity.y);
             shootleft = false;
             shootright = true;
-			if (characterSelection != 2)
+
+			//mySpriteRenderer.flipX = true;
+			if (characterSelection == 2)
 			{
-				mySpriteRenderer.flipX = false;
-            } else {
-                mySpriteRenderer.flipX = true;
-            }
+                mySpriteRenderer.flipX = false;
+			}
+			else
+			{
+				mySpriteRenderer.flipX = true;
+			}
+            
             //moveright = true;
             //moveleft = false;
 
@@ -140,25 +147,17 @@ public class Controll : MonoBehaviour
         if (moveright)
         {
             rb.velocity = new Vector2(movespeed, rb.velocity.y);
-			if (characterSelection != 2)
-			{
+			
 				mySpriteRenderer.flipX = true;
-            } else {
-                mySpriteRenderer.flipX = false;
-            }
+            
 
         }
         if (moveleft)
         {
             rb.velocity = new Vector2(-movespeed, rb.velocity.y);
-			if (characterSelection != 2)
-			{
+			
                 mySpriteRenderer.flipX = false;
-			}
-			else
-			{
-				mySpriteRenderer.flipX = true;
-			}
+			
 
         }
 

@@ -44,14 +44,9 @@ public class Hard_Enemy : MonoBehaviour
         damage = 0;
         target = GameObject.FindWithTag("Player").transform;
 
+		
+		
 
-        bullet = GameObject.FindWithTag("Bullet");
-        hitAudio = bullet.AddComponent<AudioSource>();
-        hitAudio.clip = Resources.Load("fire") as AudioClip;
-
-        enemy = GameObject.FindWithTag("enemy");
-        hurtAudio = enemy.AddComponent<AudioSource>();
-        hurtAudio.clip = Resources.Load("hit") as AudioClip;
 
     }
 
@@ -59,7 +54,16 @@ public class Hard_Enemy : MonoBehaviour
     void Update()
     {
         transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-    }
+
+        if (bullet = GameObject.FindWithTag("Bullet"))
+        {
+            hitAudio = bullet.AddComponent<AudioSource>();
+            hitAudio.clip = Resources.Load("fire") as AudioClip;
+        }
+
+
+
+	}
 
     void OnTriggerEnter2D(Collider2D obj)
     {
@@ -67,7 +71,10 @@ public class Hard_Enemy : MonoBehaviour
         var name = obj.gameObject.name;
         obj.isTrigger = true;
 
-
+		enemy = GameObject.FindWithTag("enemy");
+		hurtAudio = enemy.AddComponent<AudioSource>();
+		hurtAudio.clip = Resources.Load("hit") as AudioClip;
+		
 
         // If the enemy collided with a bullet
         if (name == "bullet(Clone)")

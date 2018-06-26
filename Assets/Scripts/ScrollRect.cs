@@ -16,6 +16,7 @@ public class ScrollRect : MonoBehaviour {
     private bool dragging = false;
     private int buttonDistance;
     private int minButtonNum;
+    private int characterSelection;
     private Animation wiggle;
     private GameObject selectedCharacter;
     private bool targetNearestButton = true;
@@ -30,10 +31,15 @@ public class ScrollRect : MonoBehaviour {
 
         purchaseButton.gameObject.SetActive(true);
         selectButton.gameObject.SetActive(true);
+
+		//selectButton.interactable = false;
+		//selectButton.GetComponentInChildren<Text>().text = "SELECTED";
     }
 	
 	// Update is called once per frame
 	void Update () {
+        
+
         for (int i = 0; i < buttons.Length; i++) {
             distance[i] = Mathf.Abs(center.transform.position.x - buttons[i].transform.position.x);
         }
@@ -51,7 +57,19 @@ public class ScrollRect : MonoBehaviour {
 
                     wiggle = GameObject.Find("Player" + (minButtonNum + 1)).GetComponent<Animation>();
                     wiggle.Play("CharacterAnimationSelection");
-                    SaveSelectedCharacter(minButtonNum);
+                    //SaveSelectedCharacter(minButtonNum);
+
+                    characterSelection = PlayerPrefs.GetInt("CharacterChoice");
+                    if (characterSelection == minButtonNum || (minButtonNum==4 && characterSelection==11))
+					{
+						selectButton.interactable = false;
+						selectButton.GetComponentInChildren<Text>().text = "SELECTED";
+					}
+					else
+					{
+						selectButton.interactable = true;
+						selectButton.GetComponentInChildren<Text>().text = "SELECT";
+					}
                 }
             }
 
@@ -102,12 +120,16 @@ public class ScrollRect : MonoBehaviour {
         dragging = true;
 		purchaseButton.gameObject.SetActive(false);
 		selectButton.gameObject.SetActive(false);
+	
+		
     }
 
     public void EndDrag () {
         dragging = false;
 		purchaseButton.gameObject.SetActive(true);
 		selectButton.gameObject.SetActive(true);
+		
+		
     }
 
     public void TaskOnClick(int buttonIndex) {
@@ -121,8 +143,9 @@ public class ScrollRect : MonoBehaviour {
     }
 
     public void SelectOnClick () {
-
-        if(minButtonNum == 6) {
+        selectButton.interactable = false;
+        selectButton.GetComponentInChildren<Text>().text = "SELECTED";
+        if(minButtonNum == 4) {
             PlayerPrefs.SetInt("CharacterChoice", 11);
         } else {
             PlayerPrefs.SetInt("CharacterChoice", minButtonNum);
