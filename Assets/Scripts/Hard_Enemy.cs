@@ -30,10 +30,17 @@ public class Hard_Enemy : MonoBehaviour
 
     private AudioSource hurtAudio;
 
+    private Rigidbody2D rigid;
+
+    public Vector2 jumpHeight;
+
 
     // Use this for initialization
     void Start()
     {
+        rigid = GetComponent<Rigidbody2D>();
+        StartCoroutine(JumpLogic());
+
         damage = 0;
         target = GameObject.FindWithTag("Player").transform;
 
@@ -92,6 +99,19 @@ public class Hard_Enemy : MonoBehaviour
             GameObject.Find("Character").GetComponent<Animation>().Play("EnemyDie");
             // Destroy itself (the enemy) to keep things simple
 
+        }
+    }
+
+    IEnumerator JumpLogic()
+    {
+        float minWaitTime = 5;
+        float maxWaitTime = 10;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(minWaitTime, maxWaitTime));
+
+            rigid.AddForce(jumpHeight, ForceMode2D.Impulse);
         }
     }
 }
