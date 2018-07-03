@@ -19,7 +19,7 @@ public class Values_Lava : MonoBehaviour
         level_played = "Lava";
         PlayerPrefs.SetString("level_played", level_played);
         highscore = PlayerPrefs.GetInt("highscore_lava");
-        collectables = PlayerPrefs.GetInt("collectables_lava");
+        collectables = PlayerPrefs.GetInt("collectables_totallava");
         score_text = GameObject.FindWithTag("Highscore").GetComponent<TextMeshProUGUI>();
         score_text.SetText(highscore + "");
         collectables_text = GameObject.FindWithTag("collectables_highscore").GetComponent<TextMeshProUGUI>();

@@ -6,7 +6,7 @@ using TMPro;
 public class CoinCounter : MonoBehaviour {
 
     private static int coinAmount = 0;
-    public static int coinAmountTotal;
+    //public static int coinAmountTotal;
     TextMeshProUGUI mText;
     private AudioSource collectAudio;
     private GameObject player;
@@ -16,7 +16,7 @@ public class CoinCounter : MonoBehaviour {
     {
         level_played = PlayerPrefs.GetString("level_played");
         mText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
-        coinAmountTotal = PlayerPrefs.GetInt("collectables_" + level_played.ToLower());
+        //coinAmountTotal = PlayerPrefs.GetInt("collectables_" + level_played.ToLower());
 
 
         player = GameObject.FindWithTag("Player");
@@ -34,6 +34,7 @@ public class CoinCounter : MonoBehaviour {
         if(name == "Character") {
             collectAudio.Play();
             coinAmount += 1;
+            PlayerPrefs.SetInt("collectables_" + level_played.ToLower() + "inlevel", coinAmount);
             mText.SetText("" + coinAmount);
 
             
@@ -53,9 +54,9 @@ public class CoinCounter : MonoBehaviour {
     private void Update()
     {
         mText.SetText("" + coinAmount);
-        if(coinAmount > 0) {
-            PlayerPrefs.SetInt("collectables_" + level_played.ToLower(), coinAmount + coinAmountTotal);
-        }
+
+
+        
     }
 
 }

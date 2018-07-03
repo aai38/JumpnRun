@@ -18,7 +18,7 @@ public class Values_Forest : MonoBehaviour {
         level_played = "Forest";
         PlayerPrefs.SetString("level_played", level_played);
         highscore = PlayerPrefs.GetInt("highscore_forest");
-        collectables = PlayerPrefs.GetInt("collectables_forest");
+        collectables = PlayerPrefs.GetInt("collectables_totalforest");
         score_text = GameObject.FindWithTag("Highscore").GetComponent<TextMeshProUGUI>();
         score_text.SetText(highscore + "");
         collectables_text = GameObject.FindWithTag("collectables_highscore").GetComponent<TextMeshProUGUI>();

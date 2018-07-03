@@ -19,7 +19,7 @@ public class Values_Sky : MonoBehaviour
         level_played = "Sky";
         PlayerPrefs.SetString("level_played", level_played);
         highscore = PlayerPrefs.GetInt("highscore_sky");
-        collectables = PlayerPrefs.GetInt("collectables_sky");
+        collectables = PlayerPrefs.GetInt("collectables_totalsky");
         score_text = GameObject.FindWithTag("Highscore").GetComponent<TextMeshProUGUI>();
         score_text.SetText(highscore + "");
         collectables_text = GameObject.FindWithTag("collectables_highscore").GetComponent<TextMeshProUGUI>();

@@ -20,6 +20,7 @@ public class Score : MonoBehaviour
         score = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
         score.SetText("Score: " + scoreValue);
         highscore = PlayerPrefs.GetInt("highscore_" + level_played.ToLower());
+       
 
     }
 
@@ -27,6 +28,7 @@ public class Score : MonoBehaviour
     void Update()
     {
         score.SetText( "Score: " + scoreValue);
+        PlayerPrefs.SetInt("highscore_" + level_played.ToLower() + "inlevel", scoreValue);
         if(scoreValue > highscore) {
             PlayerPrefs.SetInt("highscore_" + level_played.ToLower(), scoreValue);
         }
