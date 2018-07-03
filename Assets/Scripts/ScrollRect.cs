@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -10,7 +11,9 @@ public class ScrollRect : MonoBehaviour {
     public Button[] buttons;
     public Button selectButton;
     public Button purchaseButton;
+    private Button last;
     public RectTransform center;
+
 
     private float[] distance;
     private bool dragging = false;
@@ -19,7 +22,11 @@ public class ScrollRect : MonoBehaviour {
     private int characterSelection;
     private Animation wiggle;
     private GameObject selectedCharacter;
+    private GameObject lastCharacter;
     private bool targetNearestButton = true;
+    private bool ispurchased = false;
+    private TextMeshProUGUI coinText;
+    private int coinAmount;
 
 	// Use this for initialization
 	void Start () {
@@ -32,8 +39,14 @@ public class ScrollRect : MonoBehaviour {
         purchaseButton.gameObject.SetActive(true);
         selectButton.gameObject.SetActive(true);
 
-		//selectButton.interactable = false;
-		//selectButton.GetComponentInChildren<Text>().text = "SELECTED";
+        coinText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
+        coinAmount = PlayerPrefs.GetInt("collectables");
+
+        coinText.SetText("" + coinAmount);
+
+        last = GameObject.Find("Player" + (buttons.Length)).GetComponent<Button>();
+        lastCharacter = GameObject.Find("Player" + (buttons.Length)).GetComponent<GameObject>();
+        purchaseButton.interactable = false;
     }
 	
 	// Update is called once per frame
@@ -59,6 +72,7 @@ public class ScrollRect : MonoBehaviour {
                     wiggle.Play("CharacterAnimationSelection");
                     //SaveSelectedCharacter(minButtonNum);
 
+                    //for Character Selection
                     characterSelection = PlayerPrefs.GetInt("CharacterChoice");
                     if (characterSelection == minButtonNum || (minButtonNum==4 && characterSelection==11))
 					{
@@ -70,6 +84,28 @@ public class ScrollRect : MonoBehaviour {
 						selectButton.interactable = true;
 						selectButton.GetComponentInChildren<Text>().text = "SELECT";
 					}
+
+                    //TODO: not selectable when not purchased; save that it's purchased via PLayer Prefab; visual Feedback
+                    //for Character Purchase
+                    if(minButtonNum == 5 && ispurchased == false) {
+                            
+                        if (coinAmount >= 10) {
+                            
+                            //last.interactable = true;
+                            purchaseButton.interactable = true;
+                            selectButton.interactable = false;
+                            purchaseButton.GetComponentInChildren<Text>().text = "PURCHASE";
+
+                        } else {
+                            selectButton.interactable = false;
+                            purchaseButton.interactable = false;
+                            //last.interactable = false;
+                            purchaseButton.GetComponentInChildren<Text>().text = "COLLECT SOME MORE";
+                        }
+                    } else {
+                        purchaseButton.GetComponentInChildren<Text>().text = "ALREADY OWNED";
+                        purchaseButton.interactable = false;
+                    }
                 }
             }
 
@@ -152,5 +188,13 @@ public class ScrollRect : MonoBehaviour {
         }
 
         Debug.Log(minButtonNum);
+    } 
+
+    public void PurchaseOnClick () {
+        selectButton.interactable = true;
+        purchaseButton.interactable = false;
+        purchaseButton.GetComponentInChildren<Text>().text = "ALREADY OWNED";
+        ispurchased = true;
+        //last.interactable = true;
     } 
 }

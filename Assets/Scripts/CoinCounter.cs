@@ -10,12 +10,13 @@ public class CoinCounter : MonoBehaviour {
     TextMeshProUGUI mText;
     private AudioSource collectAudio;
     private GameObject player;
+    private string level_played;
 
     void Start()
     {
-        
+        level_played = PlayerPrefs.GetString("level_played");
         mText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
-        coinAmountTotal = PlayerPrefs.GetInt("collectables");
+        coinAmountTotal = PlayerPrefs.GetInt("collectables_" + level_played.ToLower());
 
 
         player = GameObject.FindWithTag("Player");
@@ -35,7 +36,6 @@ public class CoinCounter : MonoBehaviour {
             coinAmount += 1;
             mText.SetText("" + coinAmount);
 
-            //noch buggy!
             
             Destroy(gameObject);
 
@@ -54,7 +54,7 @@ public class CoinCounter : MonoBehaviour {
     {
         mText.SetText("" + coinAmount);
         if(coinAmount > 0) {
-            PlayerPrefs.SetInt("collectables", coinAmount + coinAmountTotal);
+            PlayerPrefs.SetInt("collectables_" + level_played.ToLower(), coinAmount + coinAmountTotal);
         }
     }
 

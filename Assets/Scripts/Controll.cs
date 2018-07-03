@@ -13,7 +13,8 @@ public class Controll : MonoBehaviour
     public bool shootright;
     public bool shoot;
     public bool moveup;
-    public bool isKeyEnabled = true;
+    public bool isKeyEnabled_shoot = true;
+    public bool isKeyEnabled_jump = true;
     public Vector2 jumpHeight;
     public GameObject bullet;
     public Vector2 offset = new Vector2();
@@ -108,7 +109,7 @@ public class Controll : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isKeyEnabled)
+        if (Input.GetKeyDown(KeyCode.Space) && isKeyEnabled_shoot)
         {
             //GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
             if (shootleft)
@@ -117,7 +118,7 @@ public class Controll : MonoBehaviour
                 GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * -offset, Quaternion.identity));
                 b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
                 shootAudio.Play();
-                StartCoroutine(Freeze());
+                StartCoroutine(Freeze_Shoot());
 
             }
             else
@@ -132,16 +133,16 @@ public class Controll : MonoBehaviour
 				b.transform.localScale = newScale;*/
 
 				b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
-                StartCoroutine(Freeze());
+                StartCoroutine(Freeze_Shoot());
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && isKeyEnabled)  //makes player jump
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isKeyEnabled_jump)  //makes player jump
         {
             //moveup = true;
             jumpAudio.Play();
             rb.AddForce(jumpHeight, ForceMode2D.Impulse);
-            StartCoroutine(Freeze());
+            StartCoroutine(Freeze_Jump());
         }
 
         if (moveright)
@@ -161,15 +162,15 @@ public class Controll : MonoBehaviour
 
         }
 
-        if (moveup && isKeyEnabled)
+        if (moveup && isKeyEnabled_jump)
         
         {
             jumpAudio.Play();
             rb.AddForce(jumpHeight, ForceMode2D.Impulse);
-            StartCoroutine(Freeze());
+            StartCoroutine(Freeze_Jump());
         }
 
-        if (shoot && isKeyEnabled)
+        if (shoot && isKeyEnabled_shoot)
         {
             
             if (moveleft || (!(moveleft && moveright) && mySpriteRenderer.flipX == false))
@@ -177,24 +178,31 @@ public class Controll : MonoBehaviour
                 GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * -offset, Quaternion.identity));
                 b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
                 shootAudio.Play();
-                StartCoroutine(Freeze());
+                StartCoroutine(Freeze_Shoot());
             }
             else
             {
                 GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
                 b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
                 shootAudio.Play();
-                StartCoroutine(Freeze());
+                StartCoroutine(Freeze_Shoot());
             }
         }
     }
 
 
-    IEnumerator Freeze()
+    IEnumerator Freeze_Shoot()
     {
-        isKeyEnabled = false;
+        isKeyEnabled_shoot = false;
         yield return new WaitForSeconds(0.8f);
-        isKeyEnabled = true;
+        isKeyEnabled_shoot = true;
+    }
+
+    IEnumerator Freeze_Jump()
+    {
+        isKeyEnabled_jump = false;
+        yield return new WaitForSeconds(0.8f);
+        isKeyEnabled_jump = true;
     }
 
        

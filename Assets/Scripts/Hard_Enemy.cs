@@ -34,6 +34,8 @@ public class Hard_Enemy : MonoBehaviour
 
     public Vector2 jumpHeight;
 
+    private SpriteRenderer mySpriteRenderer;
+
 
     // Use this for initialization
     void Start()
@@ -43,6 +45,8 @@ public class Hard_Enemy : MonoBehaviour
 
         damage = 0;
         target = GameObject.FindWithTag("Player").transform;
+
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
 
 		
 		
@@ -82,6 +86,7 @@ public class Hard_Enemy : MonoBehaviour
             if (damage == 0)
             {
                 damage += 1;
+                mySpriteRenderer.color = new Color(1, 0.92f, 0.016f, 1f);
                 Destroy(obj.gameObject);
             }
             // Destroy itself (the enemy) and the bullet
