@@ -32,6 +32,8 @@ public class Hard_Enemy : MonoBehaviour
 
     private Rigidbody2D rigid;
 
+    private GameObject targetObject;
+
     public Vector2 jumpHeight;
 
     private SpriteRenderer mySpriteRenderer;
@@ -44,25 +46,30 @@ public class Hard_Enemy : MonoBehaviour
         StartCoroutine(JumpLogic());
 
         damage = 0;
-        target = GameObject.FindWithTag("Player").transform;
 
         mySpriteRenderer = GetComponent<SpriteRenderer>();
 
-		
-		
+        if (GameObject.FindWithTag("Player") != null)
+        {
+            target = GameObject.FindWithTag("Player").transform;
 
+        }
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-
-        if (bullet = GameObject.FindWithTag("Bullet"))
+        targetObject = GameObject.FindWithTag("Player");
+        if (targetObject != null )
         {
-            hitAudio = bullet.AddComponent<AudioSource>();
-            hitAudio.clip = Resources.Load("fire") as AudioClip;
+            transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+
+            if (bullet = GameObject.FindWithTag("Bullet"))
+            {
+                hitAudio = bullet.AddComponent<AudioSource>();
+                hitAudio.clip = Resources.Load("fire") as AudioClip;
+            }
         }
 
 

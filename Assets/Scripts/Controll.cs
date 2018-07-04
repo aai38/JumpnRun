@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using TMPro;
 
 public class Controll : MonoBehaviour
 {
@@ -34,6 +36,8 @@ public class Controll : MonoBehaviour
     private Vector2 startTouchPosition, endTouchPosition;
     private float jumpForce = 700f;
 
+    public GameObject timeover_text;
+
 
     void Start()
     {
@@ -63,129 +67,150 @@ public class Controll : MonoBehaviour
         jumpAudio.clip = Resources.Load("jump") as AudioClip;
     }
 
+    void OnBecameInvisible()
+    {
+        
+        Destroy(gameObject);
+        GameOver();
+    }
+
+    private void GameOver()
+    {
+        TextMeshProUGUI mText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
+
+        timeover_text.SetActive(true);
+
+        StartCoroutine(Freeze());
+
+        //PlayerPrefs.SetInt("highscore" , mText);
+
+    }
+
 
 
     void Update()
     {
         //SwipeCheck();
-
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (gameObject != null)
         {
-            rb.velocity = new Vector2(-movespeed, rb.velocity.y);
-            shootleft = true;
-            shootright = false;
-			//moveright = false;
-			//moveleft = true;
-			
-			//mySpriteRenderer.flipX = false;
-			if (characterSelection == 2)
-			{
-				mySpriteRenderer.flipX = true;
-			}
-			else
-			{
-				mySpriteRenderer.flipX = false;
-			}
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            rb.velocity = new Vector2(movespeed, rb.velocity.y);
-            shootleft = false;
-            shootright = true;
 
-			//mySpriteRenderer.flipX = true;
-			if (characterSelection == 2)
-			{
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                rb.velocity = new Vector2(-movespeed, rb.velocity.y);
+                shootleft = true;
+                shootright = false;
+                //moveright = false;
+                //moveleft = true;
+
+                //mySpriteRenderer.flipX = false;
+                if (characterSelection == 2)
+                {
+                    mySpriteRenderer.flipX = true;
+                }
+                else
+                {
+                    mySpriteRenderer.flipX = false;
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                rb.velocity = new Vector2(movespeed, rb.velocity.y);
+                shootleft = false;
+                shootright = true;
+
+                //mySpriteRenderer.flipX = true;
+                if (characterSelection == 2)
+                {
+                    mySpriteRenderer.flipX = false;
+                }
+                else
+                {
+                    mySpriteRenderer.flipX = true;
+                }
+
+                //moveright = true;
+                //moveleft = false;
+
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) && isKeyEnabled_shoot)
+            {
+                //GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
+                if (shootleft)
+                {
+                    //shoot = true;
+                    GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * -offset, Quaternion.identity));
+                    b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
+                    shootAudio.Play();
+                    StartCoroutine(Freeze_Shoot());
+
+                }
+                else
+                {
+                    //shoot = true;
+                    GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
+                    shootAudio.Play();
+                    //offset:
+                    //b.transform.position = (Vector2)transform.position + transform.localScale.x * -offset;
+                    /*Vector3 newScale = b.transform.localScale;
+                    newScale.y *= -1;
+                    b.transform.localScale = newScale;*/
+
+                    b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
+                    StartCoroutine(Freeze_Shoot());
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow) && isKeyEnabled_jump)  //makes player jump
+            {
+                //moveup = true;
+                jumpAudio.Play();
+                rb.AddForce(jumpHeight, ForceMode2D.Impulse);
+                StartCoroutine(Freeze_Jump());
+            }
+
+            if (moveright)
+            {
+                rb.velocity = new Vector2(movespeed, rb.velocity.y);
+
+                mySpriteRenderer.flipX = true;
+
+
+            }
+            if (moveleft)
+            {
+                rb.velocity = new Vector2(-movespeed, rb.velocity.y);
+
                 mySpriteRenderer.flipX = false;
-			}
-			else
-			{
-				mySpriteRenderer.flipX = true;
-			}
-            
-            //moveright = true;
-            //moveleft = false;
 
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && isKeyEnabled_shoot)
-        {
-            //GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
-            if (shootleft)
-            {
-                //shoot = true;
-                GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * -offset, Quaternion.identity));
-                b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
-                shootAudio.Play();
-                StartCoroutine(Freeze_Shoot());
 
             }
-            else
-            {
-                //shoot = true;
-                GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
-                shootAudio.Play();
-				//offset:
-				//b.transform.position = (Vector2)transform.position + transform.localScale.x * -offset;
-				/*Vector3 newScale = b.transform.localScale;
-				newScale.y *= -1;
-				b.transform.localScale = newScale;*/
 
-				b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
-                StartCoroutine(Freeze_Shoot());
+            if (moveup && isKeyEnabled_jump)
+
+            {
+                jumpAudio.Play();
+                rb.AddForce(jumpHeight, ForceMode2D.Impulse);
+                StartCoroutine(Freeze_Jump());
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && isKeyEnabled_jump)  //makes player jump
-        {
-            //moveup = true;
-            jumpAudio.Play();
-            rb.AddForce(jumpHeight, ForceMode2D.Impulse);
-            StartCoroutine(Freeze_Jump());
-        }
-
-        if (moveright)
-        {
-            rb.velocity = new Vector2(movespeed, rb.velocity.y);
-			
-				mySpriteRenderer.flipX = true;
-            
-
-        }
-        if (moveleft)
-        {
-            rb.velocity = new Vector2(-movespeed, rb.velocity.y);
-			
-                mySpriteRenderer.flipX = false;
-			
-
-        }
-
-        if (moveup && isKeyEnabled_jump)
-        
-        {
-            jumpAudio.Play();
-            rb.AddForce(jumpHeight, ForceMode2D.Impulse);
-            StartCoroutine(Freeze_Jump());
-        }
-
-        if (shoot && isKeyEnabled_shoot)
-        {
-            
-            if (moveleft || (!(moveleft && moveright) && mySpriteRenderer.flipX == false))
+            if (shoot && isKeyEnabled_shoot)
             {
-                GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * -offset, Quaternion.identity));
-                b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
-                shootAudio.Play();
-                StartCoroutine(Freeze_Shoot());
-            }
-            else
-            {
-                GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
-                b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
-                shootAudio.Play();
-                StartCoroutine(Freeze_Shoot());
+
+                if (moveleft || (!(moveleft && moveright) && mySpriteRenderer.flipX == false))
+                {
+                    GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * -offset, Quaternion.identity));
+                    b.GetComponent<Rigidbody2D>().AddForce(-transform.right * bulletSpeed);
+                    shootAudio.Play();
+                    StartCoroutine(Freeze_Shoot());
+                }
+                else
+                {
+                    GameObject b = (GameObject)(Instantiate(bullet, (Vector2)transform.position + transform.localScale.x * offset, Quaternion.identity));
+                    b.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed);
+                    shootAudio.Play();
+                    StartCoroutine(Freeze_Shoot());
+                }
             }
         }
     }
@@ -203,6 +228,15 @@ public class Controll : MonoBehaviour
         isKeyEnabled_jump = false;
         yield return new WaitForSeconds(0.8f);
         isKeyEnabled_jump = true;
+    }
+
+    IEnumerator Freeze()
+    {
+
+        yield return new WaitForSeconds(3);
+
+        SceneManager.LoadScene("Endscreen");
+
     }
 
        

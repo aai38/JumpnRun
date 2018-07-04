@@ -9,6 +9,7 @@ public class Values_Forest : MonoBehaviour {
     private static int highscore;
     private static int collectables;
     private static string level_played;
+    private int maxCollectables;
     private TextMeshProUGUI score_text;
     private TextMeshProUGUI collectables_text;
 
@@ -19,10 +20,11 @@ public class Values_Forest : MonoBehaviour {
         PlayerPrefs.SetString("level_played", level_played);
         highscore = PlayerPrefs.GetInt("highscore_forest");
         collectables = PlayerPrefs.GetInt("collectables_totalforest");
+        maxCollectables = PlayerPrefs.GetInt("collectables_maxforest");
         score_text = GameObject.FindWithTag("Highscore").GetComponent<TextMeshProUGUI>();
         score_text.SetText(highscore + "");
         collectables_text = GameObject.FindWithTag("collectables_highscore").GetComponent<TextMeshProUGUI>();
-        collectables_text.SetText(collectables + "/15");
+        collectables_text.SetText(collectables + "/" + maxCollectables);
 
     }
 	

@@ -12,11 +12,11 @@ public class Menu : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 6);
     }
 
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape)) 
-        { 
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        }
+    private void Start()
+    {
+        PlayerPrefs.SetInt("collectables_maxforest", 20);
+        PlayerPrefs.SetInt("collectables_maxlava", 30);
+        PlayerPrefs.SetInt("collectables_maxsky", 40);
     }
-	
+
 }

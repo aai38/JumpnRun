@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
 
     private AudioSource hitAudio;
 
+    private GameObject targetObject;
+
     private AudioSource hurtAudio;
 
     public GameObject bullet;
@@ -40,19 +42,26 @@ public class Enemy : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         StartCoroutine(JumpLogic());
 
-        target = GameObject.FindWithTag("Player").transform;
-
+        if (GameObject.FindWithTag("Player") != null)
+        {
+            target = GameObject.FindWithTag("Player").transform;
+        }
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        targetObject = GameObject.FindWithTag("Player");
+        if (targetObject != null)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
-        if(bullet = GameObject.FindWithTag("Bullet")) {
-			hitAudio = bullet.AddComponent<AudioSource>();
-			hitAudio.clip = Resources.Load("fire") as AudioClip;
+            if (bullet = GameObject.FindWithTag("Bullet"))
+            {
+                hitAudio = bullet.AddComponent<AudioSource>();
+                hitAudio.clip = Resources.Load("fire") as AudioClip;
+            }
         }
     }
 

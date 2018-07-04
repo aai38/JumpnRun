@@ -26,7 +26,10 @@ public class ScrollRect : MonoBehaviour {
     private bool targetNearestButton = true;
     private bool ispurchased = false;
     private TextMeshProUGUI coinText;
-    private int coinAmount;
+    private int coinAmountLava;
+    private int coinAmountForest;
+    private int coinAmountSky;
+    private int coinAmountTotal;
 
 	// Use this for initialization
 	void Start () {
@@ -40,9 +43,12 @@ public class ScrollRect : MonoBehaviour {
         selectButton.gameObject.SetActive(true);
 
         coinText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
-        coinAmount = PlayerPrefs.GetInt("collectables");
+        coinAmountLava = PlayerPrefs.GetInt("collectables_totallava");
+        coinAmountForest = PlayerPrefs.GetInt("collectables_totalforest");
+        coinAmountSky = PlayerPrefs.GetInt("collectables_totalsky");
+        coinAmountTotal = coinAmountLava + coinAmountForest + coinAmountSky;
 
-        coinText.SetText("" + coinAmount);
+        coinText.SetText("" + coinAmountTotal);
 
         last = GameObject.Find("Player" + (buttons.Length)).GetComponent<Button>();
         lastCharacter = GameObject.Find("Player" + (buttons.Length)).GetComponent<GameObject>();
@@ -89,7 +95,7 @@ public class ScrollRect : MonoBehaviour {
                     //for Character Purchase
                     if(minButtonNum == 5 && ispurchased == false) {
                             
-                        if (coinAmount >= 10) {
+                        if (coinAmountTotal >= 3) {
                             
                             //last.interactable = true;
                             purchaseButton.interactable = true;
