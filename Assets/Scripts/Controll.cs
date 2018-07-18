@@ -80,7 +80,9 @@ public class Controll : MonoBehaviour
 
         timeover_text.SetActive(true);
 
-        StartCoroutine(Freeze());
+        SceneManager.LoadScene("Endscreen");
+
+        //StartCoroutine(Freeze());
 
         //PlayerPrefs.SetInt("highscore" , mText);
 
