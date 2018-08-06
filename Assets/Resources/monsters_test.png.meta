@@ -6,7 +6,7 @@ TextureImporter:
     21300002: monsters_test_1
     21300004: monsters_test_2
     21300006: monsters_test_3
-    21300008: hard_enemy
+    21300008: monsters_test_11
     21300010: monsters_test_5
     21300012: monsters_test_6
     21300014: monsters_test_7
@@ -198,7 +198,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hard_enemy
+      name: monsters_test_11
       rect:
         serializedVersion: 2
         x: 716

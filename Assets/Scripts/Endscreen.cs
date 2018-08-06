@@ -11,6 +11,7 @@ public class Endscreen : MonoBehaviour {
     private static string level_played;
     private TextMeshProUGUI score_text;
     private TextMeshProUGUI collectables_text;
+    private int maxCollectables;
 
     // Use this for initialization
     void Start () {
@@ -22,7 +23,8 @@ public class Endscreen : MonoBehaviour {
         score_text = GameObject.FindWithTag("Highscore").GetComponent<TextMeshProUGUI>();
         score_text.SetText(highscore + "");
         collectables_text = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
-        collectables_text.SetText(collectables + "/15" );
+        maxCollectables = PlayerPrefs.GetInt("collectables_max" + level_played.ToLower());
+        collectables_text.SetText(collectables + "/" + maxCollectables );
 
         PlayerPrefs.SetInt("collectables_total" + level_played.ToLower(), collectables + collectables_total);
 

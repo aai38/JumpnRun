@@ -15,6 +15,8 @@ public class CoinCounter : MonoBehaviour {
     void Start()
     {
         level_played = PlayerPrefs.GetString("level_played");
+        PlayerPrefs.SetInt("collectables_" + level_played.ToLower() + "inlevel", coinAmount);
+
         mText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
         //coinAmountTotal = PlayerPrefs.GetInt("collectables_" + level_played.ToLower());
 

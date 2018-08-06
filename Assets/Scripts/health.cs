@@ -26,7 +26,6 @@ public class health : MonoBehaviour {
     public void DestroyHeart () {
         if (health_count == 1)
         {
-            Debug.Log(health_count);
             health_count--;
             heart_0.SetActive(false);
 
@@ -43,12 +42,10 @@ public class health : MonoBehaviour {
         }
         else if (health_count == 2)
         {
-            Debug.Log(health_count);
             health_count--;
             heart_1.SetActive(false);
 
         } else if (health_count == 3) {
-            Debug.Log(health_count);
 
             heart_2.SetActive(false);
             health_count--;

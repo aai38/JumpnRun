@@ -69,16 +69,18 @@ public class Controll : MonoBehaviour
 
     void OnBecameInvisible()
     {
-        
-        Destroy(gameObject);
-        GameOver();
+        if (Time.timeScale == 1)
+        {
+            Destroy(gameObject);
+            GameOver();
+        }
     }
 
     private void GameOver()
     {
-        TextMeshProUGUI mText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
+        //TextMeshProUGUI mText = GameObject.FindWithTag("collectables").GetComponent<TextMeshProUGUI>();
 
-        timeover_text.SetActive(true);
+
 
         SceneManager.LoadScene("Endscreen");
 

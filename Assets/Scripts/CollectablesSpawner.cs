@@ -13,6 +13,7 @@ public class CollectablesSpawner : MonoBehaviour {
     Vector2 whereToSpawn;
     public float spawnRate = 2f;
     float nextSpawn = 0.0f;
+    public GameObject[] spawnPunkte;
 
 
     // Use this for initialization
@@ -27,11 +28,15 @@ public class CollectablesSpawner : MonoBehaviour {
         collectablesInLevel = PlayerPrefs.GetInt("collectables_" + level_played.ToLower() + "inlevel");
         if (Time.time > nextSpawn && maxCollectables >= collectablesInLevel)
         {
+            
             nextSpawn = Time.time + spawnRate;
-            randX = Random.Range(30f, 805f);
-            randY = Random.Range(335f, 55f);
-            whereToSpawn = new Vector2(randX,randY);
-            Instantiate(collectables, whereToSpawn, Quaternion.identity);
+            //randX = Random.Range(30f, 805f);
+            //randY = Random.Range(335f, 55f);
+
+            int punkt = Random.Range(0, this.spawnPunkte.Length); //sucht ein zufälligen spawnpunkt raus
+            Vector3 position = this.spawnPunkte[punkt].transform.position; //speichert die koordinaten des punktes
+            //whereToSpawn = new Vector2(randX,randY);
+            Instantiate(collectables, position, Quaternion.identity);
         }
 
     }

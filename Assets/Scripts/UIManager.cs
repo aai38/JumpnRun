@@ -8,10 +8,12 @@ public class UIManager : MonoBehaviour {
 	GameObject[] pauseObjects;
     Text playPause;
     public Button change;
+    private AudioSource audioSource;
 
 	// Use this for initialization
 	void Start()
 	{
+        audioSource = GameObject.FindWithTag("sound").GetComponent<AudioSource>() ;
 		Time.timeScale = 1;
 		pauseObjects = GameObject.FindGameObjectsWithTag("ShowOnPause");
 		hidePaused();
@@ -28,6 +30,7 @@ public class UIManager : MonoBehaviour {
 			if (Time.timeScale == 1)
 			{
 				Time.timeScale = 0;
+                audioSource.Pause();
 				showPaused();
                 playPause.text = "Play";
 			}
@@ -35,6 +38,7 @@ public class UIManager : MonoBehaviour {
 			{
 				Time.timeScale = 1;
 				hidePaused();
+                audioSource.Play();
                 playPause.text = "Pause";
 			}
 		}
@@ -54,12 +58,14 @@ public class UIManager : MonoBehaviour {
 		{
 			Time.timeScale = 0;
 			showPaused();
+            audioSource.Pause();
             playPause.text = "Play";
 		}
 		else if (Time.timeScale == 0)
 		{
 			Time.timeScale = 1;
 			hidePaused();
+            audioSource.Play();
             playPause.text = "Pause";
 		}
 	}
