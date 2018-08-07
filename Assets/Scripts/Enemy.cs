@@ -34,10 +34,13 @@ public class Enemy : MonoBehaviour
 
     public Vector2 jumpHeight;
 
+    private SpriteRenderer mySpriteRenderer;
+
 
     // Use this for initialization
     void Start()
     {
+        mySpriteRenderer = GetComponent<SpriteRenderer>();
 
         rigid = GetComponent<Rigidbody2D>();
         StartCoroutine(JumpLogic());
@@ -56,6 +59,11 @@ public class Enemy : MonoBehaviour
         if (targetObject != null)
         {
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+            if(target.position.x < gameObject.transform.position.x) {
+                mySpriteRenderer.flipX = false;
+            } else {
+                mySpriteRenderer.flipX = true;
+            }
 
             if (bullet = GameObject.FindWithTag("Bullet"))
             {
@@ -63,6 +71,12 @@ public class Enemy : MonoBehaviour
                 hitAudio.clip = Resources.Load("fire") as AudioClip;
             }
         }
+    }
+
+    void OnBecameInvisible()
+    {
+
+        Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D obj)

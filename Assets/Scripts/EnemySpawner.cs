@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour {
     Vector2 whereToSpawn;
     public float spawnRate = 3f;
     float nextSpawn = 0.0f;
+    public GameObject[] spawnPunkte;
 
 	// Use this for initialization
 	void Start () {
@@ -20,9 +21,9 @@ public class EnemySpawner : MonoBehaviour {
 		if (Time.time > nextSpawn)
         {
             nextSpawn = Time.time + spawnRate;
-            randX = Random.Range(532f, 494f);
-            whereToSpawn = new Vector2(randX, transform.position.y);
-            Instantiate(enemy, whereToSpawn, Quaternion.identity);
+            int punkt = Random.Range(0, this.spawnPunkte.Length); //sucht ein zufälligen spawnpunkt raus
+            Vector3 position = this.spawnPunkte[punkt].transform.position; //speichert die koordinaten des punktes
+            Instantiate(enemy, position, Quaternion.identity);
         }
 	}
 }

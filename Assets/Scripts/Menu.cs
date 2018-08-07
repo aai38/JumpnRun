@@ -17,6 +17,9 @@ public class Menu : MonoBehaviour {
         PlayerPrefs.SetInt("collectables_maxforest", 20);
         PlayerPrefs.SetInt("collectables_maxlava", 30);
         PlayerPrefs.SetInt("collectables_maxsky", 40);
+        PlayerPrefs.SetInt("collectables_totalforest", 0);
+        PlayerPrefs.SetInt("collectables_totallava", 14);
+        PlayerPrefs.SetInt("collectables_totalsky", 0);
     }
 
 }

@@ -8,7 +8,7 @@ public class CollectablesSpawner : MonoBehaviour {
     float randX;
     float randY;
     private int maxCollectables;
-    private int collectablesInLevel;
+    private int collectablestotal;
     private string level_played;
     Vector2 whereToSpawn;
     public float spawnRate = 2f;
@@ -25,8 +25,8 @@ public class CollectablesSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        collectablesInLevel = PlayerPrefs.GetInt("collectables_" + level_played.ToLower() + "inlevel");
-        if (Time.time > nextSpawn && maxCollectables >= collectablesInLevel)
+        collectablestotal = PlayerPrefs.GetInt("collectables_total" + level_played.ToLower());
+        if (Time.time > nextSpawn && maxCollectables >= collectablestotal)
         {
             
             nextSpawn = Time.time + spawnRate;

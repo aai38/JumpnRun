@@ -56,7 +56,11 @@ public class Hard_Enemy : MonoBehaviour
         }
 
     }
+    void OnBecameInvisible()
+    {
 
+        Destroy(gameObject);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -64,6 +68,14 @@ public class Hard_Enemy : MonoBehaviour
         if (targetObject != null )
         {
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+            if (target.position.x < gameObject.transform.position.x)
+            {
+                mySpriteRenderer.flipX = false;
+            }
+            else
+            {
+                mySpriteRenderer.flipX = true;
+            }
 
             if (bullet = GameObject.FindWithTag("Bullet"))
             {
