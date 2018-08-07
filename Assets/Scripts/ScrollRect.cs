@@ -59,8 +59,8 @@ public class ScrollRect : MonoBehaviour {
         ispurchased[0] = true;
 
         //For reseting Prefab
-        PlayerPrefs.SetInt("characters_purchased", 0);
-        PlayerPrefs.SetInt("CharacterChoice", 0);
+        //PlayerPrefs.SetInt("characters_purchased", 0);
+        //PlayerPrefs.SetInt("CharacterChoice", 0);
     }
 	
 	// Update is called once per frame
