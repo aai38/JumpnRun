@@ -10,14 +10,14 @@ public class Loading_beginning : MonoBehaviour
 
     public Slider slider;
     private AsyncOperation async;
-    private float progress;
+
 
     IEnumerator Start()
 
     {
         yield return new WaitForSeconds(1f);
         async = SceneManager.LoadSceneAsync("menu");
-        progress = 0;
+
     }
 
     void Update()
@@ -25,7 +25,7 @@ public class Loading_beginning : MonoBehaviour
     {
         TextMeshProUGUI mText = GameObject.FindWithTag("percentage").GetComponent<TextMeshProUGUI>();
 
-        progress = Mathf.Clamp01(async.progress / 0.9f);
+        float progress = Mathf.Clamp01(async.progress / 0.9f);
         mText.SetText(progress * 100 + "%");
         slider.value = progress;
     }
